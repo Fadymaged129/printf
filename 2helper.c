@@ -1,7 +1,7 @@
 #include "main.h"
 
 /**
- * __write_char - writes the character c to stdout.
+ * _write_char - writes the character c to stdout.
  * @c: The character to print
  * Return: On success 1 else -1.
  */
@@ -30,6 +30,7 @@ int print_string(va_list list)
 {
 	int i;
 	char *str;
+
 	str = va_arg(list, char *);
 	if (str == NULL)
 		str = "(null)";
