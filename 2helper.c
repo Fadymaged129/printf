@@ -1,51 +1,50 @@
 #include "main.h"
 
 /**
- * print_binary - Converts a number from base 10 to binary
- *
- * @ap: List of arguments passed to this function
- *
- * Return: The length of the number printed
+ * __write_char - writes the character c to stdout.
+ * @c: The character to print
+ * Return: On success 1 else -1.
  */
-
-int print_binary(va_list ap)
+int _write_char(char c)
 {
+	return (write(1, &c, 1));
+}
 
-	unsigned int num;
-	int i, len;
+/**
+ * print_char - Prints character
+ * @list: list of arguments
+ * Return: Will return the amount of characters printed.
+ */
+int print_char(va_list list)
+{
+	_write_char(va_arg(list, int));
+	return (1);
+}
+
+/**
+ * print_string - Prints a string
+ * @list: list of arguments
+ * Return: Will return the amount of characters printed.
+ */
+int print_string(va_list list)
+{
+	int i;
 	char *str;
-	char *rev_str;
-
-	num = va_arg(ap, unsigned int);
-
-	if (num == 0)
-		return (_write_char('0'));
-
-	if (num < 1)
-		return (-1);
-
-	len = helper_len(num, 2);
-	str = malloc(sizeof(char) * len + 1);
+	str = va_arg(list, char *);
 	if (str == NULL)
-		return (-1);
+		str = "(null)";
+	for (i = 0; str[i] != '\0'; i++)
+		_write_char(str[i]);
+	return (i);
+}
 
-	for (i = 0; num > 0; i++)
-	{
-		if (num % 2 == 0)
-			str[i] = '0';
-		else
-			str[i] = '1';
-		num = num / 2;
-	}
-
-	str[i] = '\0';
-	rev_str = rev_string(str);
-
-	if (rev_str == NULL)
-		return (-1);
-
-	helper_write(rev_str);
-	free(str);
-	free(rev_str);
-	return (len);
+/**
+ * print_percent - Prints a percent symbol
+ * @list: list of arguments
+ * Return: Will return the amount of characters printed.
+ */
+int print_percent(__attribute__((unused))va_list list)
+{
+	_write_char('%');
+	return (1);
 }
