@@ -1,64 +1,27 @@
-#include "main.h"
-
-/**
- * _printf - write output to stdout,
- * the standard output stream
- *
- * @format: is a character string
- *
- * Return: the character of print
- */
-
-nt print_binary(va_list ap);
 #include "main.h"
 
 /**
- * * print_binary - Converts a number from base 10 to binary
- * *
- * * @ap: List of arguments passed to this function
- * *
- * * Return: The length of the number printed
- * */
+ * _printf - write output to stdout,
+ * the standard output stream
+ * @format: is a character string.
+ * Return: the number of characters printed.
+ */
 
-int print_binary(va_list ap)
+int _printf(const char *format, ...)
 {
-	unsigned int num;
-	int i, len;
-	char *str;
-	char *rev_str;
-
-	num = va_arg(ap, unsigned int);
-
-	if (num == 0)
-		return (_write_char('0'));
-
-	  
-	if (num < 1)
-		 return (-1);
-
-	len = helper_len(num, 2);
-	  
-	str = malloc(sizeof(char) * len + 1);
-	if (str == NULL)
-		 return (-1);
-
-	for (i = 0; num > 0; i++)
-		{
-			if (num % 2 == 0)
-				str[i] = '0';
-			else
-				str[i] = '1';
-			num = num / 2;
-		}
-	
-	str[i] = '\0';
-	rev_str = rev_string(str);
-
-	if (rev_str == NULL)
+	int len;
+	va_list ap;
+	args_handle_t argsList[] = {
+		{"c", print_char},
+		{"s", print_string},
+		{"%", print_percent},
+		{"d", print_integer},
+		{"i", print_integer}
+	};
+	if (format == NULL)
 		return (-1);
-	
-	helper_write(rev_str);
-	free(str);
-	free(rev_str);
+	va_start(ap, format);
+	len = manager(format, ap, argsList);
+	va_end(ap);
 	return (len);
 }
